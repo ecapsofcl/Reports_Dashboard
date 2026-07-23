@@ -1382,7 +1382,7 @@ function drawBranchContribution(branches){
     },
     chartArea:{
       left:120,
-      width:'70%'
+      width:'60%'
     },
     animation:{
       startup:true,
@@ -1688,25 +1688,36 @@ async function buildAllBranchPages(reportType, month, branches){
     console.warn("Skipped branches (no data):", skipped.join(", "));
   }
   container.style.display = "block";
-  container.querySelectorAll(".pdf-page").forEach(fitPageContent);
+  for (const page of container.querySelectorAll(".pdf-page")) {
+  await fitPageContent(page);
+}
   exportMultiBranchPDF();
 }
-function fitPageContent(page){
-  const inner = page.querySelector(".pdf-inner");
-  if(!inner) return;
-  const style = getComputedStyle(page);
-  const available =
-    page.clientHeight
-    - parseFloat(style.paddingTop)
-    - parseFloat(style.paddingBottom);
-  const actual = inner.scrollHeight;
-  if(actual > available){
-    const k = (available / actual) * 0.99;
-    // Uniform scale - no horizontal stretch
-    inner.style.transformOrigin = "top center";
-    inner.style.transform = "scale(" + k + ")";
-    console.log("Page scaled to", Math.round(k * 100) + "%");
-  }
+async function fitPageContent(page){
+  const inner = page.querySelector(".pdf-inner");
+  if(!inner) return;
+
+  // Wait for every image (chart snapshots) to actually finish decoding —
+  // otherwise scrollHeight below can be measured before the browser has
+  // laid out the images at their real size, undershooting the true height
+  // and letting content spill onto a second page.
+  const imgs = [...inner.querySelectorAll("img")];
+  await Promise.all(imgs.map(img => img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
+
+  const style = getComputedStyle(page);
+  const available =
+    page.clientHeight
+    - parseFloat(style.paddingTop)
+    - parseFloat(style.paddingBottom);
+  const actual = inner.scrollHeight;
+  if(actual > available){
+    // 0.94 instead of 0.99 — extra headroom so any remaining measurement
+    // slack doesn't push content past the page edge.
+    const k = (available / actual) * 0.94;
+    inner.style.transformOrigin = "top center";
+    inner.style.transform = "scale(" + k + ")";
+    console.log("Page scaled to", Math.round(k * 100) + "%");
+  }
 }
 function wait(ms){
   return new Promise(resolve=>setTimeout(resolve,ms));
