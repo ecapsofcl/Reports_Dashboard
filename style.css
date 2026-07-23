@@ -381,7 +381,7 @@ svg { overflow: visible !important; }
 .summary-matrix th{ background: var(--surface-2); color: var(--text); padding:12px; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
 .summary-matrix td{ padding:12px; text-align:center; border:1px solid var(--border); background: var(--surface); color: var(--text); }
 
-.drill-kpis{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-top:25px; }
+.drill-kpis{  display: flex !important; flex-wrap: nowrap !important; gap: 10px; margin-top: 10px; }
 .drill-charts{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px; }
 #monthlyTrendChart, #branchContributionChart{
   height:400px; background: var(--surface); border: 1px solid var(--border); border-radius:14px; padding:10px;
@@ -424,13 +424,17 @@ svg { overflow: visible !important; }
 #pdfMonthlyChart, #pdfBranchChart{ height:250px; }
 #pdfLayoutDrillTitle{ margin-top:15px; margin-bottom:10px; font-size:18px; font-weight:bold; }
 .pdf-kpi-row{ display:grid; grid-template-columns:repeat(5,1fr); gap:5px; margin-top:5px; }
-.pdf-drill-kpi{ display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:5px; }
+.pdf-drill-kpi{  display: flex !important; flex-wrap: nowrap !important; gap: 10px; margin-top: 10px; }
 
 .pdf-page{ background:#fff; width:100%; padding:20px; page-break-after:always; color:#111; }
 .pdf-page .pdf-header{ text-align:center; margin-bottom:20px; border-bottom:1px solid #ddd; padding-bottom:10px; }
 .pdf-page table{ width:100%; }
 .pdf-page .card{ break-inside:avoid; }
-
+.pdf-drill-kpi .card,
+.drill-kpis .card {
+  flex: 1 1 0;
+  min-width: 0; /* lets text ellipsize instead of forcing overflow */
+}
 /* ===== Report Center ===== */
 .report-card{
   background: var(--surface);
