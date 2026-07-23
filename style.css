@@ -435,6 +435,32 @@ svg { overflow: visible !important; }
   flex: 1 1 0;
   min-width: 0; /* lets text ellipsize instead of forcing overflow */
 }
+
+/* Default (Top 6 / general) — white card, light blue outline */
+#pdfLayout .card,
+.c-pdfLayout .card {
+  background: #ffffff !important;
+  border: 1.5px solid #90caf9 !important;   /* light blue */
+  color: #111827 !important;
+  box-shadow: none !important;
+}
+#pdfLayout .card h3,
+#pdfLayout .card h4,
+.c-pdfLayout .card h3,
+.c-pdfLayout .card h4 {
+  color: #555 !important;
+}
+#pdfLayout .card h2,
+.c-pdfLayout .card h2 {
+  color: #111827 !important;
+}
+
+/* Netfox report — orange outline instead */
+#pdfLayout[data-report-type="NF"] .card,
+.c-pdfLayout[data-report-type="NF"] .card {
+  border-color: #fb923c !important;   /* orange */
+}
+
 /* ===== Report Center ===== */
 .report-card{
   background: var(--surface);
