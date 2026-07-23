@@ -461,6 +461,33 @@ svg { overflow: visible !important; }
   border-color: #fb923c !important;   /* orange */
 }
 
+#pdfLayout .summary-matrix th,
+.c-pdfLayout .summary-matrix th {
+  background: #e3f2fd !important;   /* light blue fill, matches card outline */
+  color: #111827 !important;
+  border: 1px solid #90caf9 !important;
+}
+#pdfLayout .summary-matrix td,
+.c-pdfLayout .summary-matrix td {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #90caf9 !important;
+}
+
+#pdfLayout .summary-matrix,
+.c-pdfLayout .summary-matrix {
+  width: 100% !important;
+  table-layout: fixed !important;
+  font-size: 9px !important;
+}
+#pdfLayout .summary-matrix th, .c-pdfLayout .summary-matrix th,
+#pdfLayout .summary-matrix td, .c-pdfLayout .summary-matrix td {
+  padding: 4px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
 /* ===== Report Center ===== */
 .report-card{
   background: var(--surface);
