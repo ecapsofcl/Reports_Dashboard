@@ -1627,7 +1627,7 @@ async function buildAllBranchPages(reportType, month, branches){
     box-sizing:border-box; overflow:hidden;
     page-break-after:always; background:#fff;
   }
-  #multiBranchPDF .pdf-page:last-child{ page-break-after:auto; }
+  #multiBranchPDF .pdf-page:last-child{ page-break-after:auto; overflow: hidden !important; }
   #multiBranchPDF .pdf-inner{ width:100%; }
   /* Cloned single-report layout (ids converted to c- classes) */
   #multiBranchPDF .c-pdfLayout{
