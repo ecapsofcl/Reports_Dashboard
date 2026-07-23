@@ -1185,6 +1185,7 @@ ${percent.map(v => `<td>${v}</td>`).join("")}
 document.getElementById("brandSummaryMatrix").innerHTML = html;
 }
 function buildPDFLayout(){
+document.getElementById("pdfLayout").dataset.reportType = currentSalesType;
 document.getElementById("pdfLayoutHeader").innerHTML = `
 <div class="pdf-header">
 <h1>eCAPS Dashboard</h1>
