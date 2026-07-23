@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eCAPS Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login-style.css">
+
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+
+  <!-- Login screen gets fetched into here (was <?!= include('auth.html'); ?>) -->
+  <div id="auth-slot"></div>
+
+  <div id="dashboardContent" style="display:none;">
+    <div class="sidebar modern" id="sidebar">
+      <div class="sidebar-top">
+        <div class="profile">
+          <div class="avatar"><img src="https://lh3.googleusercontent.com/d/1rC5cl9mSjE2ULfoZYahixhyijRqwCqOW"></div>
+          <div class="profile-info">
+            <h4>eCAPS</h4>
+            <span>Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu">
+        <div class="menu-item active" onclick="showSection('dashboard')">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="menu-text">Dashboard</span>
+        </div>
+        <div class="menu-item" onclick="loadTasksSection()">
+          <i data-lucide="check-square"></i>
+          <span class="menu-text">Tasks</span>
+        </div>
+        <div class="menu-item" onclick="toggleSalesMenu()">
+          <i data-lucide="bar-chart-3"></i>
+          <span class="menu-text">Sales</span>
+        </div>
+        <div id="salesSubMenu" class="submenu">
+          <div class="menu-item" onclick="openSalesReport('TOP6')">
+            <span class="menu-text">Top 6 Brand</span>
+          </div>
+          <div class="menu-item" onclick="openSalesReport('NF')">
+            <span class="menu-text">Netfox Sales</span>
+          </div>
+          <div class="menu-item" onclick="openSalesReport('SONIC')">
+            <span class="menu-text">SonicWall</span>
+          </div>
+        </div>
+        <div class="menu-item" onclick="loadPurchase()">
+          <i data-lucide="shopping-cart"></i>
+          <span class="menu-text">Purchases</span>
+        </div>
+        <div class="menu-item" onclick="toggleReportMenu()">
+          <i data-lucide="file-text"></i>
+          <span class="menu-text">Report Center</span>
+        </div>
+        <div id="reportSubMenu" class="submenu">
+          <div class="menu-item" onclick="showDownloadReports()">
+            <span class="menu-text">Download Reports</span>
+          </div>
+          <div class="menu-item" onclick="showEmailReports()">
+            <span class="menu-text">Email Reports</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div id="dashboard" class="section section-header">
+        <h2>Overview</h2>
+        <div class="overview-controls">
+          <div class="filters-left">
+            <select id="overviewBranch" onchange="loadOverviewDashboard()"></select>
+            <select id="monthFilter" onchange="loadOverviewDashboard()" disabled></select>
+            <select id="quarterFilter" onchange="loadOverviewDashboard()" disabled>
+              <option value="Q1">Q1</option>
+              <option value="Q2">Q2</option>
+              <option value="Q3">Q3</option>
+              <option value="Q4">Q4</option>
+            </select>
+          </div>
+          <div class="period-toggle">
+            <button class="period-btn active" onclick="setOverviewPeriod('MONTH',this)">Monthly</button>
+            <button class="period-btn" onclick="setOverviewPeriod('QUARTER',this)">Quarterly</button>
+            <button class="period-btn" onclick="setOverviewPeriod('YEAR',this)">Yearly</button>
+          </div>
+        </div>
+
+        <div class="kpi-container">
+          <div class="card top6">
+            <h3>Top 6 Brand Sales</h3>
+            <h2 id="top6Value">0</h2>
+          </div>
+          <div class="card netfox">
+            <h3>Netfox Sales</h3>
+            <h2 id="netfoxValue">0</h2>
+          </div>
+          <div class="card sonic">
+            <h3>SonicWall Sales</h3>
+            <h2 id="sonicValue">0</h2>
+          </div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-box">
+            <h3>Sales Distribution</h3>
+            <div id="overviewPieChart"></div>
+            <div class="custom-legend">
+              <div><span class="dot blue"></span> Top6 Brands</div>
+              <div><span class="dot red"></span> Netfox</div>
+              <div><span class="dot orange"></span> SonicWall</div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <h3>Sales Comparison</h3>
+            <div id="overviewBarChart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fetched at runtime (were <?!= include('x'); ?> in Code.gs) -->
+      <div id="tasks-slot"></div>
+      <div id="sales-slot"></div>
+      <div id="purchase-slot"></div>
+      <div id="report-center-slot"></div>
+    </div>
+  </div>
+
+  <div id="loaderOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Config + data layer (replaces Code.gs / google.script.run) -->
+  <script src="config.js"></script>
+  <script src="gviz.js"></script>
+  <script src="dataLayer.js"></script>
+
+  <!-- Runtime include loader — mirrors Apps Script's include() -->
+  <script>
+    async function includeHTML(targetId, url) {
+      const res = await fetch(url);
+      document.getElementById(targetId).innerHTML = await res.text();
+    }
+
+    (async function boot() {
+      // Load every partial before scripts.js runs, since scripts.js
+      // references elements inside them (e.g. #passwordInput, #salesTable).
+      await Promise.all([
+        includeHTML("auth-slot", "auth.html"),
+        includeHTML("tasks-slot", "tasks.html"),
+        includeHTML("sales-slot", "sales.html"),
+        includeHTML("purchase-slot", "purchase.html"),
+        includeHTML("report-center-slot", "report-center.html"),
+      ]);
+
+      // scripts.js is loaded dynamically (not via a static <script> tag)
+      // so it only executes after the partials above exist in the DOM —
+      // it wires up listeners like the login form's Enter key on load.
+      const s = document.createElement("script");
+      s.src = "scripts.js";
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

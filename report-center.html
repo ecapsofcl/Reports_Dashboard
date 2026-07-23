@@ -1,0 +1,30 @@
+<div id="reportCenter" class="section section-header" style="display:none;">
+<h2>Report Center</h2>
+<div class="report-card">
+  <div class="report-form">
+    <label>Report Type</label>
+    <select id="reportType">
+      <option value="TOP6">Top 6 Brand Sales</option>
+      <option value="NF">Netfox Sales</option>
+      <option value="SONIC">SonicWall Sales</option>
+    </select>
+    <label>Month</label>
+    <select id="reportMonth">
+      <option value="">Select Month</option>
+    </select>
+    <div class="report-actions">
+      <button class="report-btn"
+              onclick="downloadBranchReports()">
+        Download Reports
+      </button>
+      <button class="report-btn email-btn"
+              onclick="emailBranchReports()">
+        Email Reports
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+<div id="multiBranchPDF"
+     style="display:none;">
+</div>

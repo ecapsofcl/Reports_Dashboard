@@ -1,0 +1,19 @@
+<div id="tasks" class="section section-header">
+  <h2>Task Performance Dashboard</h2>
+  <div style="display:flex; gap:20px; margin-bottom:20px;">
+    <select id="memberDropdown" onchange="loadMonths()"></select>
+    <select id="monthDropdown" onchange="loadTasks()"></select>
+    <select id="statusFilter" onchange="filterStatus()">
+      <option value="All">All Status</option>
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Execute</option>
+      <option>Review</option>
+    </select>
+  </div>
+  <div id="summaryCards" style="display:flex; gap:20px;"></div>
+  <div id="performanceChart" style="width:600px; height:350px; margin-top:30px;"></div>
+    <div class="table-container">
+   <table id="taskTable"></table>
+</div>
+  </div>

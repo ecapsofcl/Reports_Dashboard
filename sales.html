@@ -1,0 +1,87 @@
+<div id="sales" class="section section-header">
+  <div id="pdfExportArea">
+  <h2 id="salesTitle">Sales Report</h2>
+  <div id="pdfHeader" style="display:none;">
+  <h1>eCAPS Dashboard</h1>
+  <h3 id="pdfReportTitle"></h3>
+  <p id="pdfReportInfo"></p>
+  <hr>
+  </div>
+  <div id="salesControls" 
+       style="display:flex; gap:15px; margin-bottom:20px;">
+    <select id="branchSelect" onchange="loadSalesMonths()">
+  <option value="">Select Branch</option>
+</select>
+<select id="salesMonth" onchange="loadSalesReport()" disabled>
+  <option value="">Select Month</option>
+</select>
+<button onclick="exportPDF()">
+📄 Export PDF
+</button>
+  </div>
+  <!-- SUMMARY MATRIX -->
+<div id="brandSummaryMatrix"></div>
+<!-- KPI CARDS -->
+<div id="top6KPIs" class="top6-kpi-wrapper"></div>
+<div class="table-container">
+  <table id="salesTable"></table>
+</div>
+<div id="salesChartsWrapper" 
+     style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;">
+<div id="salesTrendChart"
+     style="width:100%; height:450px;"> </div>
+<div id="salesPieChart"
+     style="width:100%; height:450px;"> </div>
+</div>
+<div id="brandDrilldown" style="display:none;">
+  <h2 id="selectedBrandTitle"></h2>
+  <div class="kpi-row">
+    <div class="card">
+      <h4>Total Sales</h4>
+      <h2 id="drillSales"></h2>
+    </div>
+    <div class="card">
+      <h4>Contribution %</h4>
+      <h2 id="drillPercent"></h2>
+    </div>
+    <div class="card">
+      <h4>Vs Last Month</h4>
+      <h2 id="drillGrowthMonth"></h2>
+    </div>
+    <div class="card">
+      <h4>Vs Last Quarter</h4>
+      <h2 id="drillGrowthQuarter"></h2>
+    </div>
+  </div>
+  <div class="drill-chart-row">
+      <div id="monthlyTrendChart"
+           style="flex:1; min-width:500px; height:400px;">
+      </div>
+      <div id="branchContributionChart"
+           style="flex:1; min-width:500px; height:400px;">
+      </div>
+  </div>
+</div>
+<div id="sonicDashboard" style="display:none;">
+  <div id="sonicKPISection"></div>
+  <div id="sonicTrendChart" style="height:450px;"></div>
+  <div id="sonicQuarterSection"></div>
+  <div id="sonicModelChart" style="height:450px;"></div>
+</div>
+<div id="pdfLayout" style="display:none;">
+<div id="pdfLayoutHeader"></div>
+<div id="pdfLayoutSummary"></div>
+<div id="pdfLayoutKPI"></div>
+<div class="pdf-chart-row">
+<div id="pdfTrendChart"></div>
+<div id="pdfPieChart"></div>
+</div>
+<div id="pdfLayoutDrillTitle"></div>
+<div id="pdfLayoutDrillKPI"></div>
+<div class="pdf-chart-row">
+<div id="pdfMonthlyChart"></div>
+<div id="pdfBranchChart"></div>
+</div>
+</div>
+</div>
+</div>
