@@ -373,6 +373,41 @@ svg { overflow: visible !important; }
 .dot.orange{ background: var(--amber); }
 
 /* Top 6 Sales Report */
+/* ===== Premium select styling — covers every dropdown in the app ===== */
+select {
+  background-color: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 32px 9px 12px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%237c8797' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+select:hover {
+  border-color: #2c3648;
+}
+select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(45, 217, 196, .15);
+}
+select:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+select option {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
 .top6-kpi-wrapper{ display:grid; grid-template-columns:repeat(5,1fr); gap:15px; margin:20px 0; }
 .top6-kpi-wrapper .card{ background: var(--surface); padding:20px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.3); border: 1px solid var(--border); }
 
